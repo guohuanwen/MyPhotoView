@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="@style/BaseTheme">
+        <!--底部键盘透明-->
+        <item name="android:windowTranslucentNavigation">true</item>
+        <!--顶部-->
+        <item name="android:windowTranslucentStatus">true</item>
+        <!--activity共享元素-->
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+</resources>
