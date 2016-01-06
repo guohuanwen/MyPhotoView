@@ -3,15 +3,15 @@ package handler;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.bcgtgjyb.mylibrary.base.MyDataBase;
+import com.bcgtgjyb.mylibrary.base.bean.AndroidData;
+
 import net.DataToBean;
-import net.HttpFinish;
+import net.HttpCallBack;
 import net.HttpHandler;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import db.AndroidDB;
-import db.bean.AndroidData;
 import tool.MyApplication;
 
 /**
@@ -20,9 +20,8 @@ import tool.MyApplication;
 public class AndroidDataHandle {
     private HttpHandler httpHandler = new HttpHandler();
     private DataToBean dataToBean = new DataToBean();
-    private AndroidDB androidDB;
     private Handler handler = new Handler(Looper.getMainLooper());
-
+    private MyDataBase myDataBase;
     /**
      * 发出请求并保存数据库
      *
@@ -33,21 +32,23 @@ public class AndroidDataHandle {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                httpHandler.getAndroidDataUrl(d, new HttpFinish() {
+                httpHandler.getAndroidDataUrl(d, new HttpCallBack() {
                     @Override
                     public void onSuccess(String text) {
                         AndroidData androidData1 = dataToBean.AndroidDataJsonToBean(text);
                         final List<AndroidData.ResultsEntity> list = androidData1.getResults();
-                        androidDB = AndroidDB.getInstence(MyApplication.getContext());
-                        final List l = analyseURLFromBean(list);
+                        myDataBase = MyDataBase.getInstence(MyApplication.getContext());
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                updateUI.updateList(l);
+                                updateUI.updateList(list);
                             }
                         });
                         //保存数据库
-                        androidDB.saveResultsEntity(list, d);
+                        for(AndroidData.ResultsEntity myModel:list) {
+                            myModel.setCount(d+"");
+                            myDataBase.saveBean(myModel);
+                        }
                     }
 
                     @Override
@@ -57,27 +58,10 @@ public class AndroidDataHandle {
                 });
             }
         }).start();
-
-
     }
 
-    /**
-     * 从bean获取URL,并返回url
-     *
-     * @param list
-     * @return
-     */
-    public List analyseURLFromBean(List<AndroidData.ResultsEntity> list) {
-        List<String> l = new ArrayList<String>();
-        for (AndroidData.ResultsEntity resultsEntity : list) {
-            l.add(resultsEntity.getDesc());
-        }
-        return l;
-    }
-
-
-    public static interface UpdateUI {
-        void updateList(List<String> url);
+    public interface UpdateUI {
+        void updateList(List<AndroidData.ResultsEntity> url);
     }
 }
 

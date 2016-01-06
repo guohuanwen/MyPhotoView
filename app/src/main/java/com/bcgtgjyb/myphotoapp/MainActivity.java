@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +29,7 @@ import java.util.List;
 import custom.TabIndicadtor;
 
 public class MainActivity extends FragmentActivity {
+    private String TAG = MainActivity.class.getName();
     private Toolbar toolbar;
     private AccountHeader headerResult = null;
     private ViewPager mViewPager;
@@ -52,6 +55,7 @@ public class MainActivity extends FragmentActivity {
         myPagerAdapter.addFragment(new FragmentTwo());
         myPagerAdapter.addFragment(new FragmentThree());
         mViewPager.setAdapter(myPagerAdapter);
+        mViewPager.setOffscreenPageLimit(4);
     }
 
     private void initToolBar() {
@@ -168,5 +172,12 @@ public class MainActivity extends FragmentActivity {
         public int getCount() {
             return arrayList.size();
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.i(TAG, "onKeyDown ");
+        return super.onKeyDown(keyCode, event);
+
     }
 }

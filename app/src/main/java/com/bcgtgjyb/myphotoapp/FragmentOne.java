@@ -19,6 +19,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bcgtgjyb.mylibrary.base.BaseModel;
+import com.bcgtgjyb.mylibrary.base.MyDataBase;
+import com.bcgtgjyb.mylibrary.base.bean.AndroidData;
+import com.bcgtgjyb.mylibrary.base.bean.MeiZi;
 import com.bumptech.glide.Glide;
 import com.kogitune.activity_transition.ActivityTransitionLauncher;
 
@@ -26,11 +30,10 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import db.AndroidDB;
-import db.MeiZiDB;
 import handler.AndroidDataHandle;
 import handler.MeiZiHandler;
 import tool.MyApplication;
+import tool.webview.OpenPhoneWebView;
 
 /**
  * Created by bigwen on 2015/12/8.
@@ -61,6 +64,9 @@ public class FragmentOne extends FragmentBace {
     private boolean netDataChange = true;
     private float firstDown = 0;
     private String firstDesc = "";
+    private MyDataBase myDataBase;
+    private MeiZi.ResultsEntity meiResultsEntity = new MeiZi.ResultsEntity();
+    private AndroidData.ResultsEntity andResultsEntity = new AndroidData.ResultsEntity();
 
     @Nullable
     @Override
@@ -92,8 +98,8 @@ public class FragmentOne extends FragmentBace {
 
 
     private void initNetDataChange(String param) {
-        AndroidDB androidDB = AndroidDB.getInstence(mContext);
-        netDataChange = androidDB.isAndroidDescDBFirst(param);
+//        AndroidDB androidDB = AndroidDB.getInstence(mContext);
+//        netDataChange = androidDB.isAndroidDescDBFirst(param);
         Log.i(TAG, "initNetDataChange " + netDataChange);
     }
 
@@ -215,18 +221,33 @@ public class FragmentOne extends FragmentBace {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                MeiZiDB meiZiDB = MeiZiDB.getInstance(mContext);
-                AndroidDB androidDB = AndroidDB.getInstence(mContext);
-                final List meizi = meiZiDB.loadMeiZiUrl(count);
-                final List android = androidDB.loadAndroidDesc(count);
+                MyDataBase myDataBase = MyDataBase.getInstence(MyApplication.getContext());
+                final List<BaseModel> meizi = myDataBase.loadFromDB("select * from " + meiResultsEntity.getTableName() +" where count = ?",
+                        new String[]{count + ""}, meiResultsEntity);
+
+                final List<BaseModel> android = myDataBase.loadFromDB("select * from " + andResultsEntity.getTableName() +" where count = ?",
+                        new String[]{count + ""}, andResultsEntity);
+
                 if (meizi.size() > 0 && android.size() > 0) {
                     dataInDB = true;
+                }
+                final List<String> url = new ArrayList<String>();
+                for(BaseModel baseModel:meizi){
+                    if(baseModel instanceof MeiZi.ResultsEntity){
+                        url.add(((MeiZi.ResultsEntity) baseModel).getUrl());
+                    }
+                }
+                final List<AndroidData.ResultsEntity> androidEntity = new ArrayList<AndroidData.ResultsEntity>();
+                for(BaseModel baseModel:android){
+                    if(baseModel instanceof AndroidData.ResultsEntity){
+                        androidEntity.add((AndroidData.ResultsEntity)baseModel);
+                    }
                 }
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mPhotoListAdapter.addBottomItem(meizi);
-                        mPhotoListAdapter.addBottomItemAndroid(android);
+                        mPhotoListAdapter.addBottomItem(url);
+                        mPhotoListAdapter.addBottomItemAndroid(androidEntity);
                     }
                 });
             }
@@ -259,10 +280,6 @@ public class FragmentOne extends FragmentBace {
         meiZiHandlerl.requestUrl(count, new MeiZiHandler.UpdateUI() {
             @Override
             public void updateList(List<String> list) {
-//                if (top) {
-//                    ((PhotoListAdapter) mListView.getAdapter()).addTopItem(list);
-//                }
-                //底部加载更多
                 if (bottom) {
                     ((PhotoListAdapter) mListView.getAdapter()).addBottomItem(list);
                 }
@@ -272,14 +289,14 @@ public class FragmentOne extends FragmentBace {
         });
         androidDataHandle.requestUrl(count, new AndroidDataHandle.UpdateUI() {
             @Override
-            public void updateList(List<String> url) {
+            public void updateList(List<AndroidData.ResultsEntity> url) {
                 //底部加载更多
                 if (bottom) {
                     ((PhotoListAdapter) mListView.getAdapter()).addBottomItemAndroid(url);
                 }
                 mSwipeRefreshLayout.setRefreshing(false);
                 if (count == 1) {
-                    firstDesc = (String) url.get(0);
+                    firstDesc = url.get(0).getUrl();
                     initNetDataChange(firstDesc);
                 }
             }
@@ -289,7 +306,7 @@ public class FragmentOne extends FragmentBace {
 
 
     private class PhotoListAdapter extends BaseAdapter implements View.OnClickListener{
-        private List<String> androidData = new ArrayList<String>();
+        private List<AndroidData.ResultsEntity> androidData = new ArrayList<AndroidData.ResultsEntity>();
         private List<String> URL = new ArrayList<String>();
         private Context mContext;
 
@@ -347,7 +364,7 @@ public class FragmentOne extends FragmentBace {
             notifyDataSetChanged();
         }
 
-        public void addBottomItemAndroid(List<String> android) {
+        public void addBottomItemAndroid(List<AndroidData.ResultsEntity> android) {
             Log.i(TAG, "addBottomItemAndroid " + android.size());
             androidData.addAll(androidData.size(), android);
             notifyDataSetChanged();
@@ -362,22 +379,18 @@ public class FragmentOne extends FragmentBace {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-//            SoftReference softReference;
             ViewHolder viewHolder = null;
             WeakReference weakReference;
             if (convertView == null) {
-//                softReference = new SoftReference(viewHolder);
                 weakReference = new WeakReference(new ViewHolder());
                 convertView = inflater.inflate(R.layout.photo_list_item, null);
-//                ((ViewHolder)softReference.get()).imageView = (ImageView) convertView.findViewById(R.id.photo_list_item_imageview);
-//                convertView.setTag(softReference.get());
                 ((ViewHolder) weakReference.get()).imageView = (ImageView) convertView.findViewById(R.id.photo_list_item_imageview);
                 ((ViewHolder) weakReference.get()).textView1 = (TextView) convertView.findViewById(R.id.photo_list_item_text1);
                 convertView.setTag(weakReference.get());
                 ((ViewHolder) weakReference.get()).imageView.setOnClickListener(this);
+                ((ViewHolder) weakReference.get()).textView1.setOnClickListener(this);
                 ((ViewHolder) weakReference.get()).imageView.setTag(R.id.glide_tag_id,URL.get(position));
             } else {
-//                softReference=new SoftReference(viewHolder);
                 weakReference = new WeakReference((ViewHolder) convertView.getTag());
                 ((ViewHolder) weakReference.get()).imageView.setTag(R.id.glide_tag_id,URL.get(position));
             }
@@ -385,11 +398,11 @@ public class FragmentOne extends FragmentBace {
                 Glide.with(mContext).load(URL.get(position))
                         .placeholder(R.drawable.replace)
                         .crossFade()
-//                    .into(((ViewHolder) softReference.get()).imageView);
                         .into(((ViewHolder) weakReference.get()).imageView);
             }
             if (androidData.size() > position) {
-                ((ViewHolder) weakReference.get()).textView1.setText(androidData.get(position));
+                ((ViewHolder) weakReference.get()).textView1.setText(androidData.get(position).getDesc());
+                ((ViewHolder) weakReference.get()).textView1.setTag(androidData.get(position));
             }
             return convertView;
         }
@@ -398,9 +411,12 @@ public class FragmentOne extends FragmentBace {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.photo_list_item_imageview:
-                    Intent intent=new Intent((MainActivity)getActivity(),PhotoActivity.class);
+                    Intent intent=new Intent(getActivity(),PhotoActivity.class);
                     intent.putExtra("url",(String)v.getTag(R.id.glide_tag_id));
-                    ActivityTransitionLauncher.with((MainActivity)getActivity()).from(v).launch(intent);
+                    ActivityTransitionLauncher.with(getActivity()).from(v).launch(intent);
+                    break;
+                case R.id.photo_list_item_text1:
+                    OpenPhoneWebView.open(((AndroidData.ResultsEntity)v.getTag()).getUrl(),getActivity());
                     break;
             }
         }

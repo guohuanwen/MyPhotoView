@@ -3,15 +3,16 @@ package handler;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.bcgtgjyb.mylibrary.base.MyDataBase;
+import com.bcgtgjyb.mylibrary.base.bean.MeiZi;
+
 import net.DataToBean;
-import net.HttpFinish;
+import net.HttpCallBack;
 import net.HttpHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import db.MeiZiDB;
-import db.bean.MeiZi;
 import tool.MyApplication;
 
 /**
@@ -20,9 +21,8 @@ import tool.MyApplication;
 public class MeiZiHandler {
     private HttpHandler httpHandler = new HttpHandler();
     private DataToBean dataToBean = new DataToBean();
-    private MeiZiDB meiZiDB;
     private Handler handler=new Handler(Looper.getMainLooper());
-
+    private MyDataBase myDataBase;
     /**
      * 发出请求并保存数据库
      *
@@ -33,12 +33,12 @@ public class MeiZiHandler {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                httpHandler.getMeiZiUrl(d, new HttpFinish() {
+                httpHandler.getMeiZiUrl(d, new HttpCallBack() {
                     @Override
                     public void onSuccess(String text) {
                         MeiZi meiZi = dataToBean.MeiZiJsonToBean(text);
                         final List<MeiZi.ResultsEntity> list = meiZi.getResults();
-                        meiZiDB = MeiZiDB.getInstance(MyApplication.getContext());
+                        myDataBase = MyDataBase.getInstence(MyApplication.getContext());
                         final List l = analyseURLFromBean(list);
                         handler.post(new Runnable() {
                             @Override
@@ -47,7 +47,10 @@ public class MeiZiHandler {
                             }
                         });
                         //保存数据库
-                        meiZiDB.saveResultsEntity(list, d);
+                        for(MeiZi.ResultsEntity myModel:list) {
+                            myModel.setCount(d+"");
+                            myDataBase.saveBean(myModel);
+                        }
                     }
 
                     @Override

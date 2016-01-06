@@ -1,4 +1,8 @@
-package db.bean;
+package com.bcgtgjyb.mylibrary.base.bean;
+
+import com.bcgtgjyb.mylibrary.base.MyAnnotion;
+import com.bcgtgjyb.mylibrary.base.MyModel;
+import com.google.gson.annotations.Expose;
 
 import java.util.List;
 
@@ -43,16 +47,43 @@ public class MeiZi {
         return results;
     }
 
-    public static class ResultsEntity {
+    @MyAnnotion.DBName("MeiZiResultsEntity")
+    public static class ResultsEntity extends MyModel{
+        @Expose
+        @MyAnnotion.DBField
         private String who;
+        @Expose
         private String publishedAt;
+        @Expose
+        @MyAnnotion.DBField
         private String desc;
+        @Expose
+        @MyAnnotion.DBField
         private String type;
+        @Expose
+        @MyAnnotion.DBPrimaryKey
+        @MyAnnotion.DBField
         private String url;
-        private boolean used;
+        @Expose
+        @MyAnnotion.DBField
+        private String used;
+        @Expose
         private String objectId;
+        @Expose
         private String createdAt;
+        @Expose
         private String updatedAt;
+        @MyAnnotion.DBField
+        private String count;
+
+
+        public String getCount() {
+            return count;
+        }
+
+        public void setCount(String count) {
+            this.count = count;
+        }
 
         public void setWho(String who) {
             this.who = who;
@@ -74,9 +105,6 @@ public class MeiZi {
             this.url = url;
         }
 
-        public void setUsed(boolean used) {
-            this.used = used;
-        }
 
         public void setObjectId(String objectId) {
             this.objectId = objectId;
@@ -110,8 +138,12 @@ public class MeiZi {
             return url;
         }
 
-        public boolean isUsed() {
+        public String getUsed() {
             return used;
+        }
+
+        public void setUsed(String used) {
+            this.used = used;
         }
 
         public String getObjectId() {

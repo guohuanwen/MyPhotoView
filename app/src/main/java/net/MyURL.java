@@ -10,4 +10,6 @@ public class MyURL {
     //android资讯
     //http://gank.avosapps.com/api/data/Android/10/1 最后一个参数代表请求第几页
     public static String AndroidData="http://gank.avosapps.com/api/data/Android/10/";
+    //天气，带历史两天天气
+    public static String Weather = "http://apis.baidu.com/apistore/weatherservice/recentweathers?cityid=";
 }

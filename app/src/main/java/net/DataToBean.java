@@ -2,8 +2,8 @@ package net;
 
 import com.google.gson.Gson;
 
-import db.bean.AndroidData;
-import db.bean.MeiZi;
+import com.bcgtgjyb.mylibrary.base.bean.AndroidData;
+import com.bcgtgjyb.mylibrary.base.bean.MeiZi;
 
 /**
  * Created by bigwen on 2015/12/8.

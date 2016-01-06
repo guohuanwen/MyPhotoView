@@ -5,6 +5,8 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
+import com.squareup.okhttp.internal.framed.Header;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -19,9 +21,9 @@ public class HttpRequest {
     public HttpRequest() {
         client=new OkHttpClient();
         //设置超时
-        client.setConnectTimeout(20, TimeUnit.SECONDS);
-        client.setWriteTimeout(20,TimeUnit.SECONDS);
-        client.setReadTimeout(30,TimeUnit.SECONDS);
+        client.setConnectTimeout(10, TimeUnit.SECONDS);
+        client.setWriteTimeout(10,TimeUnit.SECONDS);
+        client.setReadTimeout(10,TimeUnit.SECONDS);
     }
 
     public String httpGet(String url) throws IOException {
@@ -47,5 +49,15 @@ public class HttpRequest {
     public String httpPost(String url,String json) throws IOException{
         return httpPostResponse(url,json).body().string();
     }
+
+    public Response httpGetWeather(String url,String urlParam,Header header) throws Exception{
+        Request request  = new Request.Builder()
+                .header(header.name.utf8(),header.value.utf8())
+                .url(url+urlParam)
+                .build();
+        return client.newCall(request).execute();
+    }
+
+
 
 }

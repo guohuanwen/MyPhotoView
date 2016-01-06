@@ -11,7 +11,7 @@ import java.io.IOException;
  */
 public class HttpHandler {
     private HttpRequest httpRequest=new HttpRequest();
-    public String getMeiZiUrl(int count,HttpFinish httpFinish){
+    public String getMeiZiUrl(int count, HttpCallBack httpFinish){
         String url= MyURL.MeiZiURL+count;
         String r="";
 
@@ -28,7 +28,7 @@ public class HttpHandler {
         return r;
     }
 
-    public void getAndroidDataUrl(int count,HttpFinish httpFinish){
+    public void getAndroidDataUrl(int count, HttpCallBack httpFinish){
         String url= MyURL.AndroidData+count;
         String r="";
         try {
