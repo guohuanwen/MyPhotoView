@@ -57,7 +57,15 @@
         android:layout_marginTop="20dp"
         android:layout_below="@+id/weather_view_place"
         android:layout_width="wrap_content"
+        android:visibility="visible"
         android:layout_height="match_parent">
     </ListView>
+
+    <module.weather.WeatherFigure
+        android:id="@+id/weather_view_figure"
+        android:visibility="invisible"
+        android:layout_alignTop="@+id/weather_view_list"
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
 
 </RelativeLayout>

@@ -44,6 +44,10 @@ public class WeatherView extends LinearLayout {
     private android.support.v4.app.Fragment fragment;
     private WeatherAdapter weatherAdapter;
     private LoadingView loadingView;
+    private WeatherFigure weatherFigure;
+    private int[] highTmp =new int[4] ;
+    private int[] lowTmp =new int[4];
+    private String[] weatehrType =new String[4];
 
 
     public WeatherView(Context context, AttributeSet attrs) {
@@ -73,7 +77,8 @@ public class WeatherView extends LinearLayout {
         time = (TextView) findViewById(R.id.weather_view_time);
         place = (TextView) findViewById(R.id.weather_view_place);
         listView = (ListView) findViewById(R.id.weather_view_list);
-        loadingView = (LoadingView)findViewById(R.id.weather_view_loading);
+        loadingView = (LoadingView) findViewById(R.id.weather_view_loading);
+        weatherFigure = (WeatherFigure)findViewById(R.id.weather_view_figure);
         httpRequest();
         weatherHandler = new WeatherHandler();
         place.setOnClickListener(new OnClickListener() {
@@ -87,10 +92,19 @@ public class WeatherView extends LinearLayout {
         loadingView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!loadingView.isStart()) {
+                if (!loadingView.isStart()) {
                     loadingView.start();
                     httpRequest();
                 }
+            }
+        });
+
+        weatherFigure.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "onClick ");
+                weatherFigure.setVisibility(View.INVISIBLE);
+                listView.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -122,7 +136,7 @@ public class WeatherView extends LinearLayout {
                     @Override
                     public void onError(Exception e) {
                         Log.e(TAG, "onError " + e.toString());
-                        if(loadingView.isStart()) {
+                        if (loadingView.isStart()) {
                             loadingView.stop();
                         }
                     }
@@ -132,7 +146,7 @@ public class WeatherView extends LinearLayout {
 
             @Override
             protected void onPostExecute(Object o) {
-                if(loadingView.isStart()) {
+                if (loadingView.isStart()) {
                     loadingView.stop();
                 }
                 List<BaseModel> todayEntitys = weatherHandler.loadAllFromDB(new CityWeather.RetDataEntity.TodayEntity());
@@ -145,16 +159,36 @@ public class WeatherView extends LinearLayout {
                 }
                 place.setText(SharePrefenceIO.loadSharePreference("city_name", "USERCITY", "北京"));
                 List<BaseModel> forecasts = weatherHandler.loadAllFromDB(new CityWeather.RetDataEntity.ForecastEntity());
-                if(forecasts==null||(forecasts!=null&&forecasts.size()==0)){
+                if (forecasts == null || (forecasts != null && forecasts.size() == 0)) {
                     Log.i(TAG, "onPostExecute 预测天气空");
                     return;
                 }
                 List<CityWeather.RetDataEntity.ForecastEntity> list = new ArrayList<>();
+                int i = 0;
                 for (BaseModel baseModel : forecasts) {
                     if (baseModel instanceof CityWeather.RetDataEntity.ForecastEntity) {
                         list.add((CityWeather.RetDataEntity.ForecastEntity) baseModel);
+                        try {
+                            String h = ((CityWeather.RetDataEntity.ForecastEntity) baseModel).getHightemp();
+                            String l = ((CityWeather.RetDataEntity.ForecastEntity) baseModel).getLowtemp();
+                            int high = Integer.valueOf(h.replace("℃",""));
+                            int low = Integer.valueOf(l.replace("℃", ""));
+                            String type = ((CityWeather.RetDataEntity.ForecastEntity) baseModel).getType();
+                            highTmp[i] = high;
+                            lowTmp[i] = low;
+                            weatehrType[i] = type;
+                            Log.i(TAG, "onPostExecute "+i+"   "+high+low+type);
+                            i++;
+                        } catch (Exception e) {
+                            Log.e(TAG, "onPostExecute " + e.toString());
+                        }
                     }
                 }
+                if (highTmp.length == 4 && lowTmp.length == 4 && weatehrType.length == 4) {
+                    weatherFigure.setData(highTmp, lowTmp, weatehrType);
+                }
+
+
                 if (weatherAdapter == null) {
                     weatherAdapter = new WeatherAdapter(list);
                     listView.setAdapter(weatherAdapter);
@@ -170,7 +204,7 @@ public class WeatherView extends LinearLayout {
         httpRequest();
     }
 
-    public class WeatherAdapter extends BaseAdapter {
+    public class WeatherAdapter extends BaseAdapter implements OnClickListener{
         private List<CityWeather.RetDataEntity.ForecastEntity> list = new ArrayList<>();
 
         public WeatherAdapter(List<CityWeather.RetDataEntity.ForecastEntity> list) {
@@ -208,6 +242,7 @@ public class WeatherView extends LinearLayout {
             viewHolder.type.setText(list.get(position).getType() + " " +
                     list.get(position).getLowtemp() + "～" + list.get(position).getHightemp());
             Log.i(TAG, "getView " + viewHolder.time + "  " + list);
+            convertView.setOnClickListener(this);
             return convertView;
         }
 
@@ -221,6 +256,12 @@ public class WeatherView extends LinearLayout {
         public class ViewHolder {
             public TextView time;
             public TextView type;
+        }
+
+        @Override
+        public void onClick(View v) {
+            listView.setVisibility(View.INVISIBLE);
+            weatherFigure.setVisibility(View.VISIBLE);
         }
     }
 }
