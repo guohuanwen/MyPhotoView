@@ -35,6 +35,7 @@
         <activity android:name="tool.webview.WebActivity">
 
         </activity>
+        <activity android:name="module.weather.WeatherActivity"></activity>
 
 
         <meta-data android:name="design_width" android:value="768">

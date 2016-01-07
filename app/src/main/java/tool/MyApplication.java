@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.bcgtgjyb.mylibrary.base.MyDataBase;
 
+import io.AssetsDatabaseManager;
+
 /**
  * Created by bigwen on 2015/12/8.
  */
@@ -22,5 +24,13 @@ public class MyApplication extends Application {
         context=getApplicationContext();
         MyDataBase.getInstence(context);
         inNet=CheckNet.isNetWork(context);
+        copyDB();
+    }
+
+
+    public void copyDB(){
+        AssetsDatabaseManager.initManager(context);
+        AssetsDatabaseManager mg = AssetsDatabaseManager.getManager();
+        mg.getDatabase("Bigwen");
     }
 }

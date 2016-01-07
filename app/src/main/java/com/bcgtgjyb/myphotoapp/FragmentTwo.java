@@ -1,5 +1,6 @@
 package com.bcgtgjyb.myphotoapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,12 +25,8 @@ public class FragmentTwo extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 //        view = inflater.inflate(R.layout.fragment_two, null);
 //        init();
-        view = new WeatherView(getActivity());
+        view = new WeatherView(getActivity(),this);
         return view;
-    }
-
-    public FragmentTwo() {
-        super();
     }
 
     private void init() {
@@ -68,5 +65,11 @@ public class FragmentTwo extends Fragment {
 
     }
 
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(view instanceof WeatherView){
+            ((WeatherView) view).update();
+        }
+    }
 }

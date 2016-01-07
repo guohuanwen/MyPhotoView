@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/weather_list_item_time"
+        android:layout_margin="10dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="18sp"
+        android:layout_alignParentLeft="true"
+        android:text="星期一"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/weather_list_item_type"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:textSize="18sp"
+        android:text="多云 4-7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

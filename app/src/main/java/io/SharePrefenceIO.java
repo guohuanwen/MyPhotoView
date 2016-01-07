@@ -15,7 +15,7 @@ public class SharePrefenceIO {
         sharedPreferences.edit().putString(key,value).commit();
     }
 
-    public static String loadSharePreference(String key,String fileName){
-        return MyApplication.getContext().getSharedPreferences(fileName, Context.MODE_PRIVATE).getString(key,"");
+    public static String loadSharePreference(String key,String fileName,String param){
+        return MyApplication.getContext().getSharedPreferences(fileName, Context.MODE_PRIVATE).getString(key,param);
     }
 }

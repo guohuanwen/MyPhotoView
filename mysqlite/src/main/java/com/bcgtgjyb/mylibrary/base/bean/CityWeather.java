@@ -300,6 +300,7 @@ public class CityWeather {
         }
 
         //预报
+        @MyAnnotion.DBName("CityWeatherForecastEntity")
         public static class ForecastEntity extends MyModel {
             @MyAnnotion.DBPrimaryKey
             @MyAnnotion.DBField
