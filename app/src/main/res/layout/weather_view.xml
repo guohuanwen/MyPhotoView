@@ -10,6 +10,13 @@
         android:textSize="56sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <module.weather.LoadingView
+        android:id="@+id/weather_view_loading"
+        android:layout_marginRight="30dp"
+        android:layout_alignTop="@+id/weather_view_tmp"
+        android:layout_alignParentRight="true"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
     <TextView
         android:id="@+id/weather_view_windy"
         android:layout_below="@+id/weather_view_tmp"

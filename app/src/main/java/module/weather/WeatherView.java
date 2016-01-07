@@ -43,6 +43,7 @@ public class WeatherView extends LinearLayout {
     private WeatherHandler weatherHandler;
     private android.support.v4.app.Fragment fragment;
     private WeatherAdapter weatherAdapter;
+    private LoadingView loadingView;
 
 
     public WeatherView(Context context, AttributeSet attrs) {
@@ -72,6 +73,7 @@ public class WeatherView extends LinearLayout {
         time = (TextView) findViewById(R.id.weather_view_time);
         place = (TextView) findViewById(R.id.weather_view_place);
         listView = (ListView) findViewById(R.id.weather_view_list);
+        loadingView = (LoadingView)findViewById(R.id.weather_view_loading);
         httpRequest();
         weatherHandler = new WeatherHandler();
         place.setOnClickListener(new OnClickListener() {
@@ -80,6 +82,16 @@ public class WeatherView extends LinearLayout {
                 fragment.startActivityForResult(new Intent(mContext, WeatherActivity.class), Activity.RESULT_FIRST_USER);
             }
 
+        });
+
+        loadingView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!loadingView.isStart()) {
+                    loadingView.start();
+                    httpRequest();
+                }
+            }
         });
     }
 
@@ -96,6 +108,10 @@ public class WeatherView extends LinearLayout {
                         t = text;
                         Gson gson = new Gson();
                         CityWeather cityWeather = gson.fromJson(text, CityWeather.class);
+                        weatherHandler.deleteAll(new CityWeather.RetDataEntity.TodayEntity());
+                        weatherHandler.deleteAll(new CityWeather.RetDataEntity());
+                        weatherHandler.deleteAll(new CityWeather.RetDataEntity.ForecastEntity());
+
                         weatherHandler.saveDB(cityWeather.getRetData());
                         weatherHandler.saveDB(cityWeather.getRetData().getToday());
                         for (CityWeather.RetDataEntity.ForecastEntity forecastEntity : cityWeather.getRetData().getForecast()) {
@@ -106,6 +122,9 @@ public class WeatherView extends LinearLayout {
                     @Override
                     public void onError(Exception e) {
                         Log.e(TAG, "onError " + e.toString());
+                        if(loadingView.isStart()) {
+                            loadingView.stop();
+                        }
                     }
                 });
                 return null;
@@ -113,6 +132,9 @@ public class WeatherView extends LinearLayout {
 
             @Override
             protected void onPostExecute(Object o) {
+                if(loadingView.isStart()) {
+                    loadingView.stop();
+                }
                 List<BaseModel> todayEntitys = weatherHandler.loadAllFromDB(new CityWeather.RetDataEntity.TodayEntity());
                 if (todayEntitys.size() > 0 && todayEntitys.get(0) instanceof CityWeather.RetDataEntity.TodayEntity) {
                     CityWeather.RetDataEntity.TodayEntity todayEntity = (CityWeather.RetDataEntity.TodayEntity) todayEntitys.get(0);
@@ -184,7 +206,7 @@ public class WeatherView extends LinearLayout {
             }
             viewHolder.time.setText(list.get(position).getWeek());
             viewHolder.type.setText(list.get(position).getType() + " " +
-                    list.get(position).getLowtemp() + "-" + list.get(position).getHightemp());
+                    list.get(position).getLowtemp() + "～" + list.get(position).getHightemp());
             Log.i(TAG, "getView " + viewHolder.time + "  " + list);
             return convertView;
         }

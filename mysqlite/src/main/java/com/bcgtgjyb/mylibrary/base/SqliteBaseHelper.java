@@ -28,9 +28,9 @@ public class SqliteBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.i(TAG, "onCreate 1");
-        Log.i(TAG, "onCreate "+new CityWeather.RetDataEntity().getCreatTableSql() +
+        Log.i(TAG, "onCreate " + new CityWeather.RetDataEntity().getCreatTableSql() +
                 new CityWeather.RetDataEntity.TodayEntity().getCreatTableSql() +
-                new AndroidData.ResultsEntity().getCreatTableSql()+
+                new AndroidData.ResultsEntity().getCreatTableSql() +
                 new MeiZi.ResultsEntity().getCreatTableSql() +
                 "");
         try {
@@ -40,33 +40,33 @@ public class SqliteBaseHelper extends SQLiteOpenHelper {
             db.execSQL(new CityWeather.RetDataEntity().getCreatTableSql());
             db.execSQL(new CityWeather.RetDataEntity.TodayEntity().getCreatTableSql());
 
-    }catch (Exception e){
-        Log.e(TAG, "onCreate " + e.toString());
-    }
-        if(sqliteUpgrade!=null){
+        } catch (Exception e) {
+            Log.e(TAG, "onCreate " + e.toString());
+        }
+        if (sqliteUpgrade != null) {
             sqliteUpgrade.Create(db);
         }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.i(TAG, "onUpgrade "+oldVersion+"  "+newVersion);
-        if(newVersion>=2) {
+        Log.i(TAG, "onUpgrade " + oldVersion + "  " + newVersion);
+        if (oldVersion < 2 && newVersion >= 2) {
             db.execSQL(new CityWeather.RetDataEntity.ForecastEntity().getCreatTableSql());
         }
-        if(sqliteUpgrade!=null){
+        if (sqliteUpgrade != null) {
             sqliteUpgrade.Upgrade(db, oldVersion, newVersion);
         }
     }
-
 
 
     public void setSqliteUpgrade(SqliteUpgrade sqliteUpgrade) {
         this.sqliteUpgrade = sqliteUpgrade;
     }
 
-    public interface SqliteUpgrade{
-        void Upgrade(SQLiteDatabase db,int oldVersion,int newVersion);
+    public interface SqliteUpgrade {
+        void Upgrade(SQLiteDatabase db, int oldVersion, int newVersion);
+
         void Create(SQLiteDatabase db);
     }
 }

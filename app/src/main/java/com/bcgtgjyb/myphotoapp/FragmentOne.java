@@ -26,7 +26,6 @@ import com.bcgtgjyb.mylibrary.base.bean.MeiZi;
 import com.bumptech.glide.Glide;
 import com.kogitune.activity_transition.ActivityTransitionLauncher;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -380,29 +379,44 @@ public class FragmentOne extends FragmentBace {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder viewHolder = null;
-            WeakReference weakReference;
+//            WeakReference weakReference;
             if (convertView == null) {
-                weakReference = new WeakReference(new ViewHolder());
                 convertView = inflater.inflate(R.layout.photo_list_item, null);
-                ((ViewHolder) weakReference.get()).imageView = (ImageView) convertView.findViewById(R.id.photo_list_item_imageview);
-                ((ViewHolder) weakReference.get()).textView1 = (TextView) convertView.findViewById(R.id.photo_list_item_text1);
-                convertView.setTag(weakReference.get());
-                ((ViewHolder) weakReference.get()).imageView.setOnClickListener(this);
-                ((ViewHolder) weakReference.get()).textView1.setOnClickListener(this);
-                ((ViewHolder) weakReference.get()).imageView.setTag(R.id.glide_tag_id,URL.get(position));
+                viewHolder = new ViewHolder();
+                viewHolder.imageView = (ImageView) convertView.findViewById(R.id.photo_list_item_imageview);
+                viewHolder.textView1 = (TextView) convertView.findViewById(R.id.photo_list_item_text1);
+                convertView.setTag(viewHolder);
+
+//                weakReference = new WeakReference(new ViewHolder());
+//                ((ViewHolder) weakReference.get()).imageView = (ImageView) convertView.findViewById(R.id.photo_list_item_imageview);
+//                ((ViewHolder) weakReference.get()).textView1 = (TextView) convertView.findViewById(R.id.photo_list_item_text1);
+//                convertView.setTag(weakReference.get());
+//                ((ViewHolder) weakReference.get()).imageView.setOnClickListener(this);
+//                ((ViewHolder) weakReference.get()).textView1.setOnClickListener(this);
+//                ((ViewHolder) weakReference.get()).imageView.setTag(R.id.glide_tag_id,URL.get(position));
             } else {
-                weakReference = new WeakReference((ViewHolder) convertView.getTag());
-                ((ViewHolder) weakReference.get()).imageView.setTag(R.id.glide_tag_id,URL.get(position));
+//                weakReference = new WeakReference((ViewHolder) convertView.getTag());
+//                ((ViewHolder) weakReference.get()).imageView.setTag(R.id.glide_tag_id,URL.get(position));
+                viewHolder = (ViewHolder) convertView.getTag();
             }
+            viewHolder.imageView.setOnClickListener(this);
+            viewHolder.textView1.setOnClickListener(this);
+            viewHolder.imageView.setTag(R.id.glide_tag_id, URL.get(position));
+//            ((ViewHolder) weakReference.get()).imageView.setOnClickListener(this);
+//                ((ViewHolder) weakReference.get()).textView1.setOnClickListener(this);
+//                ((ViewHolder) weakReference.get()).imageView.setTag(R.id.glide_tag_id,URL.get(position));
             if (URL.size() > position) {
                 Glide.with(mContext).load(URL.get(position))
                         .placeholder(R.drawable.replace)
                         .crossFade()
-                        .into(((ViewHolder) weakReference.get()).imageView);
+                        .into(viewHolder.imageView);
+//                        .into(((ViewHolder) weakReference.get()).imageView);
             }
             if (androidData.size() > position) {
-                ((ViewHolder) weakReference.get()).textView1.setText(androidData.get(position).getDesc());
-                ((ViewHolder) weakReference.get()).textView1.setTag(androidData.get(position));
+//                ((ViewHolder) weakReference.get()).textView1.setText(androidData.get(position).getDesc());
+//                ((ViewHolder) weakReference.get()).textView1.setTag(androidData.get(position));
+                viewHolder.textView1.setText(androidData.get(position).getDesc());
+                viewHolder.textView1.setTag(androidData.get(position));
             }
             return convertView;
         }

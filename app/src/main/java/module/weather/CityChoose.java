@@ -28,12 +28,12 @@ import tool.MyApplication;
  * Created by bigwen on 2016/1/6.
  */
 public class CityChoose extends LinearLayout {
-    private String SharePrefenceName = "USERCITY";
+    private String SharePrefenceName = SharePrefenceIO.SharePrefenceNameCityName;
     private String TAG = CityChoose.class.getName();
     private Context mContext;
     private ListView procinceList;
     private ListView cityList;
-//    private Map<String, List<CityName.CityCodeEntity.CityEntity>> cityMap = new HashMap<String, List<CityName.CityCodeEntity.CityEntity>>();
+    //    private Map<String, List<CityName.CityCodeEntity.CityEntity>> cityMap = new HashMap<String, List<CityName.CityCodeEntity.CityEntity>>();
     private ArrayAdapter<String> provinceAdapter;
     private CityAdapter cityAdapter;
     private MyDataBase myDataBase;
@@ -71,6 +71,7 @@ public class CityChoose extends LinearLayout {
             "新疆",
             "云南",
             "浙江"};
+    private boolean isTouchProvince = false;
 
     public CityChoose(Context context) {
         super(context);
@@ -90,17 +91,16 @@ public class CityChoose extends LinearLayout {
         procinceList = (ListView) findViewById(R.id.city_choose_province);
         cityList = (ListView) findViewById(R.id.city_choose_city);
         provinceAdapter = new ArrayAdapter<String>(mContext, R.layout.arraylist_item, R.id.arraylist_item_text, province);
-        cityAdapter = new CityAdapter(myDataBase.loadCity("北京"));
         procinceList.setAdapter(provinceAdapter);
+        cityAdapter = new CityAdapter(myDataBase.loadCity("北京"));
         cityList.setAdapter(cityAdapter);
-
 
         procinceList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.i(TAG, "onItemClick " + province[position]);
                 cityAdapter.update(myDataBase.loadCity(province[position]));
-                SharePrefenceIO.saveSharePreference("province",province[position],SharePrefenceName);
+                SharePrefenceIO.saveSharePreference("province", province[position], SharePrefenceName);
             }
         });
     }
@@ -151,9 +151,12 @@ public class CityChoose extends LinearLayout {
             convertView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SharePrefenceIO.saveSharePreference("city_name",((ViewHolder)v.getTag()).cityEntity.getCityName(),SharePrefenceName);
-                    SharePrefenceIO.saveSharePreference("city_code",((ViewHolder)v.getTag()).cityEntity.getCityCode(),SharePrefenceName);
-                    ((Activity)mContext).finish();
+                    if (!isTouchProvince) {
+                        SharePrefenceIO.saveSharePreference("province", "北京", SharePrefenceName);
+                    }
+                    SharePrefenceIO.saveSharePreference("city_name", ((ViewHolder) v.getTag()).cityEntity.getCityName(), SharePrefenceName);
+                    SharePrefenceIO.saveSharePreference("city_code", ((ViewHolder) v.getTag()).cityEntity.getCityCode(), SharePrefenceName);
+                    ((Activity) mContext).finish();
                 }
             });
             return convertView;

@@ -57,7 +57,11 @@ public class WeatherHandler {
 
     public List<BaseModel> loadFromDB(MyModel myModel,String sql,String[] param){
         return MyDataBase.getInstence(MyApplication.getContext())
-                .loadFromDB(sql,param,myModel);
+                .loadFromDB(sql, param, myModel);
+    }
+
+    public void deleteAll(MyModel myModel){
+        MyDataBase.getInstence(MyApplication.getContext()).deleteAll(myModel);
     }
 
 }

@@ -9,7 +9,7 @@ import tool.MyApplication;
  * Created by bigwen on 2016/1/4.
  */
 public class SharePrefenceIO {
-
+    public static String SharePrefenceNameCityName = "USERCITY";
     public static void saveSharePreference(String key,String value,String fileName){
         SharedPreferences sharedPreferences = MyApplication.getContext().getSharedPreferences(fileName, Context.MODE_PRIVATE);
         sharedPreferences.edit().putString(key,value).commit();

@@ -113,5 +113,9 @@ public class MyDataBase {
         return cityEntities;
     }
 
+    public void deleteAll(MyModel baseModel){
+        db.delete(baseModel.getTableName(),null,null);
+    }
+
 
 }
