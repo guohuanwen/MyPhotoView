@@ -1,4 +1,4 @@
-package tool.dialog;
+package com.bcgtgjyb.dialoglbrary.dialog;
 
 import android.content.Context;
 import android.view.View;

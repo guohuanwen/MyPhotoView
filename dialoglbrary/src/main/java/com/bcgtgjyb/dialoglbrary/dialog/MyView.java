@@ -1,4 +1,4 @@
-package tool.dialog;
+package com.bcgtgjyb.dialoglbrary.dialog;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bcgtgjyb.myphotoapp.R;
+import com.bcgtgjyb.dialoglbrary.R;
 
 /**
  * Created by bigwen on 2016/1/5.
