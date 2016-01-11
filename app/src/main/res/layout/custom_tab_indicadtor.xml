@@ -2,21 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:weightSum="3"
+    android:background="@color/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="60dp">
     <TextView
+        android:id="@+id/custom_1"
         android:gravity="center"
         android:text="one"
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="match_parent" />
     <TextView
+        android:id="@+id/custom_2"
         android:gravity="center"
         android:text="two"
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="match_parent" />
     <TextView
+        android:id="@+id/custom_3"
         android:gravity="center"
         android:text="three"
         android:layout_weight="1"

@@ -50,13 +50,21 @@ public class HttpRequest {
         return httpPostResponse(url,json).body().string();
     }
 
-    public Response httpGetWeather(String url,String urlParam,Header header) throws Exception{
+    public Response httpGet(String url, String urlParam, Header header) throws Exception{
         Request request  = new Request.Builder()
                 .header(header.name.utf8(),header.value.utf8())
                 .url(url+urlParam)
                 .build();
         return client.newCall(request).execute();
     }
+
+    public Response httpGet(String url,String urlParams) throws IOException{
+        Request request = new Request.Builder()
+                .url(url+urlParams)
+                .build();
+        return  client.newCall(request).execute();
+    }
+
 
 
 

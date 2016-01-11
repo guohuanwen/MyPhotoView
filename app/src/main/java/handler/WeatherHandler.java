@@ -36,7 +36,7 @@ public class WeatherHandler {
     public void httpGetWeatnerInfo(String url,String urlParam, HttpCallBack httpCallBack){
         Header header = new Header("apikey","effbe9a153507135f408b1da1476aaaf");
         try {
-            Response response = new HttpRequest().httpGetWeather(url, urlParam, header);
+            Response response = new HttpRequest().httpGet(url, urlParam, header);
             if (response.isSuccessful()) {
                 httpCallBack.onSuccess(response.body().string());
             }

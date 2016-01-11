@@ -1,71 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view = "http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/weather_view_tmp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:text="8"
-        android:textSize="56sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <module.weather.LoadingView
-        android:id="@+id/weather_view_loading"
-        android:layout_marginRight="30dp"
-        android:layout_alignTop="@+id/weather_view_tmp"
-        android:layout_alignParentRight="true"
-        android:layout_width="30dp"
-        android:layout_height="30dp" />
-    <TextView
-        android:id="@+id/weather_view_windy"
-        android:layout_below="@+id/weather_view_tmp"
-        android:layout_marginLeft="10dp"
-        android:text="小雨"
-        android:textSize="30sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/weather_view_feng"
-        android:layout_below="@+id/weather_view_windy"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:text="东北风，风力3级"
-        android:textSize="24sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/weather_view_time"
-        android:layout_below="@+id/weather_view_feng"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:text="2016-01-04"
-        android:textSize="18sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/weather_view_place"
-        android:layout_below="@+id/weather_view_time"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:text="武汉"
-        android:textSize="24sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/weather_view_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        card_view:cardElevation="2dp"
+        card_view:cardCornerRadius="2dp"
+        >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/weather_view_tmp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="8"
+            android:textSize="56sp" />
+
+        <module.weather.LoadingView
+            android:id="@+id/weather_view_loading"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/weather_view_tmp"
+            android:layout_marginRight="30dp" />
+
+        <TextView
+            android:id="@+id/weather_view_windy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/weather_view_tmp"
+            android:layout_marginLeft="10dp"
+            android:text="小雨"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/weather_view_feng"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/weather_view_windy"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:text="东北风，风力3级"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/weather_view_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/weather_view_feng"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:text="2016-01-04"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/weather_view_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/weather_view_time"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:text="武汉"
+            android:textSize="24sp" />
+    </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
     <ListView
         android:id="@+id/weather_view_list"
+        android:layout_below="@+id/weather_view_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/weather_view_place"
-        android:layout_width="wrap_content"
-        android:visibility="visible"
-        android:layout_height="match_parent">
-    </ListView>
+        android:divider="@null"
+        android:dividerHeight="10dp"
+        android:elevation="5dp"
+        android:visibility="visible"></ListView>
 
     <module.weather.WeatherFigure
+        android:layout_below="@+id/weather_view_cardview"
         android:id="@+id/weather_view_figure"
-        android:visibility="invisible"
-        android:layout_alignTop="@+id/weather_view_list"
         android:layout_width="match_parent"
-        android:layout_height="100dp" />
+        android:layout_height="100dp"
+        android:layout_alignTop="@+id/weather_view_list"
+        android:elevation="5dp"
+        android:visibility="invisible" />
+
 
 </RelativeLayout>

@@ -44,10 +44,15 @@ public class MainActivity extends FragmentActivity {
         mViewPager=(ViewPager)findViewById(R.id.viewpager);
         tabIndicadtor=(TabIndicadtor)findViewById(R.id.tabIndicadtor);
         myPagerAdapter=new MyPagerAdapter(getSupportFragmentManager());
-        initToolBar();
         initDrawer();
         initPager();
 
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        tintManager.setStatusBarTintResource(R.color.colorPrimaryDrak);
+        tintManager.setStatusBarTintEnabled(true);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        toolbar.setFitsSystemWindows(true);
+        toolbar.setTitle(R.string.app_name);
     }
 
     private void initPager() {
@@ -56,17 +61,28 @@ public class MainActivity extends FragmentActivity {
         myPagerAdapter.addFragment(new FragmentThree());
         mViewPager.setAdapter(myPagerAdapter);
         mViewPager.setOffscreenPageLimit(4);
+        tabIndicadtor.setSelect(0);
+        tabIndicadtor.setText(new String[]{"图片","天气","笑话"});
+        tabIndicadtor.setViewPager(mViewPager);
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                tabIndicadtor.setSelect(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
-    private void initToolBar() {
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintResource(R.color.colorPrimaryDrak);
-        tintManager.setStatusBarTintEnabled(true);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        toolbar.setFitsSystemWindows(true);
-        toolbar.setTitle(R.string.app_name);
 
-    }
 
     private void initDrawer() {
         new DrawerBuilder().withActivity(this).build();

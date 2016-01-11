@@ -11,27 +11,30 @@ import android.widget.TextView;
 
 import com.bcgtgjyb.dialoglbrary.dialog.MyDiolag;
 
+import module.joke.JokeView;
+
 /**
  * Created by bigwen on 2015/12/8.
  */
 public class FragmentThree extends Fragment {
     private View view;
     private String TAG = FragmentThree.class.getName();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view=inflater.inflate(R.layout.fragment_three,null);
+//        view = inflater.inflate(R.layout.fragment_three, null);
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                init();
-            }
-        });
+//        view.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                init();
+//            }
+//        });
+
+        view = new JokeView(getActivity());
         return view;
     }
-
-
 
 
     private void init() {

@@ -2,16 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:weightSum="3"
+    android:background="#eeeeee"
     android:layout_height="match_parent">
     <ListView
         android:id="@+id/city_choose_province"
+        android:layout_marginLeft="4dp"
         android:layout_weight="1"
         android:layout_width="0dp"
+        android:divider="@null"
+        android:dividerHeight="4dp"
         android:layout_height="match_parent">
     </ListView>
     <ListView
         android:id="@+id/city_choose_city"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
         android:layout_weight="2"
+        android:divider="@null"
+        android:dividerHeight="4dp"
         android:layout_width="0dp"
         android:layout_height="match_parent">
     </ListView>
