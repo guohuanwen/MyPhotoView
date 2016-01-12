@@ -6,9 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.bcgtgjyb.mylibrary.base.bean.CityName;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -91,27 +88,7 @@ public class MyDataBase {
     }
 
 
-    public void saveCityName(String province, String city, String city_code) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("province", province);
-        contentValues.put("city", city);
-        contentValues.put("city_code", city_code);
-        db.replace("city_name", null, contentValues);
-    }
 
-    public List<CityName.CityCodeEntity.CityEntity> loadCity(String province) {
-        Cursor cursor = db.rawQuery("select * from city_name where province = ?", new String[]{province});
-        List<CityName.CityCodeEntity.CityEntity> cityEntities = new ArrayList<CityName.CityCodeEntity.CityEntity>();
-        if (cursor.moveToFirst()) {
-            do {
-                CityName.CityCodeEntity.CityEntity cityEntity = new CityName.CityCodeEntity.CityEntity();
-                cityEntity.setCityName(cursor.getString(cursor.getColumnIndex("city")));
-                cityEntity.setCityCode(cursor.getString(cursor.getColumnIndex("city_code")));
-                cityEntities.add(cityEntity);
-            } while (cursor.moveToNext());
-        }
-        return cityEntities;
-    }
 
     public void deleteAll(MyModel baseModel){
         db.delete(baseModel.getTableName(),null,null);

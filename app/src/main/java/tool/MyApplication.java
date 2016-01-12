@@ -31,6 +31,7 @@ public class MyApplication extends Application {
     public void copyDB(){
         AssetsDatabaseManager.initManager(context);
         AssetsDatabaseManager mg = AssetsDatabaseManager.getManager();
-        mg.getDatabase("Bigwen");
+        mg.getDatabase("CityName");
+//        mg.getDatabase("Bigwen-journal");
     }
 }

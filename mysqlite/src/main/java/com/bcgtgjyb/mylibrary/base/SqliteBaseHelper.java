@@ -16,10 +16,7 @@ import com.bcgtgjyb.mylibrary.base.bean.MeiZi;
 public class SqliteBaseHelper extends SQLiteOpenHelper {
     private String TAG = SqliteBaseHelper.class.getName();
     private SqliteUpgrade sqliteUpgrade;
-    private String CityName = "create table city_name ( " +
-            " province text , " +
-            " city text , " +
-            " city_code text primary key )";
+
 
     public SqliteBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -31,32 +28,28 @@ public class SqliteBaseHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate " + new CityWeather.RetDataEntity().getCreatTableSql() +
                 new CityWeather.RetDataEntity.TodayEntity().getCreatTableSql() +
                 new AndroidData.ResultsEntity().getCreatTableSql() +
-                new MeiZi.ResultsEntity().getCreatTableSql() +
-                "");
-        try {
-            db.execSQL(CityName);
-            db.execSQL(new AndroidData.ResultsEntity().getCreatTableSql());
-            db.execSQL(new MeiZi.ResultsEntity().getCreatTableSql());
-            db.execSQL(new CityWeather.RetDataEntity().getCreatTableSql());
-            db.execSQL(new CityWeather.RetDataEntity.TodayEntity().getCreatTableSql());
+                new MeiZi.ResultsEntity().getCreatTableSql() + "  " +
+                new CityWeather.RetDataEntity.ForecastEntity().getCreatTableSql());
 
-        } catch (Exception e) {
-            Log.e(TAG, "onCreate " + e.toString());
-        }
-        if (sqliteUpgrade != null) {
-            sqliteUpgrade.Create(db);
-        }
+
+        db.execSQL(new AndroidData.ResultsEntity().getCreatTableSql());
+        db.execSQL(new MeiZi.ResultsEntity().getCreatTableSql());
+        db.execSQL(new CityWeather.RetDataEntity().getCreatTableSql());
+        db.execSQL(new CityWeather.RetDataEntity.TodayEntity().getCreatTableSql());
+        
+        db.execSQL(new CityWeather.RetDataEntity.ForecastEntity().getCreatTableSql());
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.i(TAG, "onUpgrade " + oldVersion + "  " + newVersion);
-        if (oldVersion < 2 && newVersion >= 2) {
+        if (oldVersion == 1) {
             db.execSQL(new CityWeather.RetDataEntity.ForecastEntity().getCreatTableSql());
         }
-        if (sqliteUpgrade != null) {
-            sqliteUpgrade.Upgrade(db, oldVersion, newVersion);
-        }
+//        if (sqliteUpgrade != null) {
+//            sqliteUpgrade.Upgrade(db, oldVersion, newVersion);
+//        }
     }
 
 

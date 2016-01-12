@@ -36,6 +36,7 @@ import java.util.Map;
  * Of cause, you can use AssetsDatabaseManager.getManager().getDatabase("xx") to get a database when you need use a database
  */
 public class AssetsDatabaseManager {
+	private static String TAG = "AssetsDatabase";
 	private static String tag = "AssetsDatabase"; // for LogCat
 	private static String databasepath = "/data/data/%s/databases"; // %s is packageName
 	
@@ -91,6 +92,7 @@ public class AssetsDatabaseManager {
 		File file = new File(sfile);
 		SharedPreferences dbs = context.getSharedPreferences(AssetsDatabaseManager.class.toString(), 0);
 		boolean flag = dbs.getBoolean(dbfile, false); // Get Database file flag, if true means this database file was copied and valid
+		//操作过一次，或者文件不存在
 		if(!flag || !file.exists()){
 			file = new File(spath);
 			if(!file.exists() && !file.mkdirs()){
