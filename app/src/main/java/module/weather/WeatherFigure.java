@@ -29,6 +29,9 @@ public class WeatherFigure extends View {
     private Paint paintHighText;
     private Paint paintLowText;
 
+    private int width = 0;
+    private int height = 0;
+
     public WeatherFigure(Context context) {
         super(context);
         mContext = context;
@@ -83,6 +86,7 @@ public class WeatherFigure extends View {
     }
 
     private void init() {
+        height = ScreenUtil.dip2px(mContext,150);
         Log.i(TAG, "init ");
         for (int i : highTmp) {
             max = Math.max(i, max);
@@ -106,15 +110,13 @@ public class WeatherFigure extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         Log.i(TAG, "onDraw ");
-        int width = getWidth();
-        int w8 = ScreenUtil.dip2px(mContext, 60);
+        width = getWidth();
         //后面常数控制距离底部距离，越小越低
-        int height = getHeight() - w8;
         int width1 = width / 8 * 1;
         int width2 = width / 8 * 3;
         int width3 = width / 8 * 5;
         int width4 = width / 8 * 7;
-
+        int height = ScreenUtil.dip2px(mContext,100);
         int heightHigh1 = height / tmpHeight * highTmpTrans[0];
         int heightHigh2 = height / tmpHeight * highTmpTrans[1];
         int heightHigh3 = height / tmpHeight * highTmpTrans[2];
@@ -143,8 +145,8 @@ public class WeatherFigure extends View {
         canvas.drawText(highTmp[2] + "", width3 - w1, height - heightHigh3 - w2, paintHighText);
         canvas.drawText(highTmp[3] + "", width4 - w1, height - heightHigh4 - w2, paintHighText);
 
-        int w3 = ScreenUtil.dip2px(mContext,4);
-        int w4 = ScreenUtil.dip2px(mContext,18);
+        int w3 = ScreenUtil.dip2px(mContext,8);
+        int w4 = ScreenUtil.dip2px(mContext,24);
         canvas.drawText(lowTmp[0] + "", width1 - w3, height - heightLow1 + w4, paintLowText);
         canvas.drawText(lowTmp[1] + "", width2 - w3, height - heightLow2 + w4, paintLowText);
         canvas.drawText(lowTmp[2] + "", width3 - w3, height - heightLow3 + w4, paintLowText);
@@ -159,13 +161,13 @@ public class WeatherFigure extends View {
         canvas.drawLine(width3, height - heightLow3, width4, height - heightLow4, paintLow);
 
 
-        int w6 = ScreenUtil.dip2px(mContext,8);
-        int w7 = ScreenUtil.dip2px(mContext,30);
+        int w6 = ScreenUtil.dip2px(mContext,16);
+        int w7 = ScreenUtil.dip2px(mContext,45);
         //后面常数控制文字到底部距离，越大越低
-        canvas.drawText(type[0], width1 - w6, height + w7, paintLowText);
-        canvas.drawText(type[1], width2 - w6, height + w7, paintLowText);
-        canvas.drawText(type[2], width3 - w6, height + w7, paintLowText);
-        canvas.drawText(type[3], width4 - w6, height + w7, paintLowText);
+        canvas.drawText(type[0], width1 - w6, height+w7, paintLowText);
+        canvas.drawText(type[1], width2 - w6, height+w7, paintLowText);
+        canvas.drawText(type[2], width3 - w6, height+w7, paintLowText);
+        canvas.drawText(type[3], width4 - w6, height+w7, paintLowText);
     }
 
 

@@ -87,16 +87,15 @@
         android:divider="@null"
         android:dividerHeight="10dp"
         android:elevation="5dp"
-        android:visibility="visible"></ListView>
+        android:visibility="gone"></ListView>
 
     <module.weather.WeatherFigure
         android:layout_below="@+id/weather_view_cardview"
         android:id="@+id/weather_view_figure"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_alignTop="@+id/weather_view_list"
+        android:layout_height="150dp"
         android:elevation="5dp"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 
 
 </RelativeLayout>
