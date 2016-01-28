@@ -50,6 +50,14 @@ public class HttpRequest {
         return httpPostResponse(url,json).body().string();
     }
 
+    public Response httpGet(String url, Header header) throws Exception{
+        Request request  = new Request.Builder()
+                .header(header.name.utf8(),header.value.utf8())
+                .url(url)
+                .build();
+        return client.newCall(request).execute();
+    }
+
     public Response httpGet(String url, String urlParam, Header header) throws Exception{
         Request request  = new Request.Builder()
                 .header(header.name.utf8(),header.value.utf8())

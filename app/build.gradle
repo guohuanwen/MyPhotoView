@@ -2,14 +2,16 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion '23.0.1'
 
     defaultConfig {
         applicationId "com.bcgtgjyb.myphotoapp"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 5
-        versionName "1.1.3"
+        versionCode 6
+        versionName "1.1.4"
+        //测试
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -20,8 +22,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.0.1'
     //抽屉效果
     compile('com.mikepenz:materialdrawer:4.5.6@aar') {
         transitive = true
@@ -33,7 +34,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.6.1'
     //网络请求
     compile 'com.squareup.okhttp:okhttp:2.5.0'
-    compile 'com.android.support:support-v4:23.1.1'
+    compile 'com.android.support:support-v4:23.0.1'
     //配合glide使用
     compile 'com.github.florent37:glidepalette:1.0.4@aar'
     //图片点击 跳转 补间
@@ -46,6 +47,19 @@ dependencies {
     compile 'com.zhy:autolayout:1.3.6'
     compile project(':dialoglbrary')
     //卡片
-    compile 'com.android.support:cardview-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:cardview-v7:23.0.1'
+    compile 'com.android.support:design:23.0.1'
+    //腾讯分享sdk
+    compile files('libs/mta-sdk-1.6.2.jar')
+    compile files('libs/open_sdk_r5509.jar')
+    //测试 基于android
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
+    androidTestCompile 'com.android.support:support-annotations:23.1.1'
+//    //基于java虚拟机
+//    testCompile 'junit:junit:4.12'
+//    testCompile "org.assertj:assertj-core:1.7.0"
+//    testCompile('org.robolectric:robolectric:3.0-rc2') {
+//        exclude group: 'commons-logging', module: 'commons-logging'
+//        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+//    }
 }

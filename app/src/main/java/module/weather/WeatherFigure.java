@@ -8,6 +8,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import tool.ScreenUtil;
+
 /**
  * Created by bigwen on 2016/1/7.
  */
@@ -66,13 +68,18 @@ public class WeatherFigure extends View {
         paintLow = new Paint();
         paintHigh.setColor(Color.RED);
         paintLow.setColor(Color.BLUE);
+        int w = ScreenUtil.dip2px(mContext,3);
+        paintHigh.setStrokeWidth(w);
+        paintLow.setStrokeWidth(w);
 
         paintHighText = new Paint();
         paintLowText = new Paint();
         paintHighText.setColor(Color.RED);
         paintLowText.setColor(Color.BLUE);
-        paintHighText.setTextSize(30);
-        paintLowText.setTextSize(30);
+
+        int w2 = ScreenUtil.dip2px(mContext,24);
+        paintHighText.setTextSize(w2);
+        paintLowText.setTextSize(w2);
     }
 
     private void init() {
@@ -100,8 +107,9 @@ public class WeatherFigure extends View {
         super.onDraw(canvas);
         Log.i(TAG, "onDraw ");
         int width = getWidth();
+        int w8 = ScreenUtil.dip2px(mContext, 60);
         //后面常数控制距离底部距离，越小越低
-        int height = getHeight() - 70;
+        int height = getHeight() - w8;
         int width1 = width / 8 * 1;
         int width2 = width / 8 * 3;
         int width3 = width / 8 * 5;
@@ -117,25 +125,30 @@ public class WeatherFigure extends View {
         int heightLow3 = height / tmpHeight * lowTmpTrans[2];
         int heightLow4 = height / tmpHeight * lowTmpTrans[3];
 
-        canvas.drawCircle(width1, height - heightHigh1, 5, paintHigh);
-        canvas.drawCircle(width2, height - heightHigh2, 5, paintHigh);
-        canvas.drawCircle(width3, height - heightHigh3, 5, paintHigh);
-        canvas.drawCircle(width4, height - heightHigh4, 5, paintHigh);
+        int r = ScreenUtil.dip2px(mContext,5);
+        canvas.drawCircle(width1, height - heightHigh1,r , paintHigh);
+        canvas.drawCircle(width2, height - heightHigh2, r, paintHigh);
+        canvas.drawCircle(width3, height - heightHigh3, r, paintHigh);
+        canvas.drawCircle(width4, height - heightHigh4, r, paintHigh);
 
-        canvas.drawCircle(width1, height - heightLow1, 5, paintLow);
-        canvas.drawCircle(width2, height - heightLow2, 5, paintLow);
-        canvas.drawCircle(width3, height - heightLow3, 5, paintLow);
-        canvas.drawCircle(width4, height - heightLow4, 5, paintLow);
+        canvas.drawCircle(width1, height - heightLow1, r, paintLow);
+        canvas.drawCircle(width2, height - heightLow2, r, paintLow);
+        canvas.drawCircle(width3, height - heightLow3, r, paintLow);
+        canvas.drawCircle(width4, height - heightLow4, r, paintLow);
 
-        canvas.drawText(highTmp[0] + "", width1 - 10, height - heightHigh1 - 8, paintHighText);
-        canvas.drawText(highTmp[1] + "", width2 - 10, height - heightHigh2 - 8, paintHighText);
-        canvas.drawText(highTmp[2] + "", width3 - 10, height - heightHigh3 - 8, paintHighText);
-        canvas.drawText(highTmp[3] + "", width4 - 10, height - heightHigh4 - 8, paintHighText);
+        int w1 = ScreenUtil.dip2px(mContext,4);
+        int w2 = ScreenUtil.dip2px(mContext,8);
+        canvas.drawText(highTmp[0] + "", width1 - w1, height - heightHigh1 - w2, paintHighText);
+        canvas.drawText(highTmp[1] + "", width2 - w1, height - heightHigh2 - w2, paintHighText);
+        canvas.drawText(highTmp[2] + "", width3 - w1, height - heightHigh3 - w2, paintHighText);
+        canvas.drawText(highTmp[3] + "", width4 - w1, height - heightHigh4 - w2, paintHighText);
 
-        canvas.drawText(lowTmp[0] + "", width1 - 8, height - heightLow1 + 28, paintLowText);
-        canvas.drawText(lowTmp[1] + "", width2 - 8, height - heightLow2 + 28, paintLowText);
-        canvas.drawText(lowTmp[2] + "", width3 - 8, height - heightLow3 + 28, paintLowText);
-        canvas.drawText(lowTmp[3] + "", width4 - 8, height - heightLow4 + 28, paintLowText);
+        int w3 = ScreenUtil.dip2px(mContext,4);
+        int w4 = ScreenUtil.dip2px(mContext,18);
+        canvas.drawText(lowTmp[0] + "", width1 - w3, height - heightLow1 + w4, paintLowText);
+        canvas.drawText(lowTmp[1] + "", width2 - w3, height - heightLow2 + w4, paintLowText);
+        canvas.drawText(lowTmp[2] + "", width3 - w3, height - heightLow3 + w4, paintLowText);
+        canvas.drawText(lowTmp[3] + "", width4 - w3, height - heightLow4 + w4, paintLowText);
 
         canvas.drawLine(width1, height - heightHigh1, width2, height - heightHigh2, paintHigh);
         canvas.drawLine(width2, height - heightHigh2, width3, height - heightHigh3, paintHigh);
@@ -146,11 +159,13 @@ public class WeatherFigure extends View {
         canvas.drawLine(width3, height - heightLow3, width4, height - heightLow4, paintLow);
 
 
+        int w6 = ScreenUtil.dip2px(mContext,8);
+        int w7 = ScreenUtil.dip2px(mContext,30);
         //后面常数控制文字到底部距离，越大越低
-        canvas.drawText(type[0], width1 - 10, height + 55, paintLowText);
-        canvas.drawText(type[1], width2 - 10, height + 55, paintLowText);
-        canvas.drawText(type[2], width3 - 10, height + 55, paintLowText);
-        canvas.drawText(type[3], width4 - 10, height + 55, paintLowText);
+        canvas.drawText(type[0], width1 - w6, height + w7, paintLowText);
+        canvas.drawText(type[1], width2 - w6, height + w7, paintLowText);
+        canvas.drawText(type[2], width3 - w6, height + w7, paintLowText);
+        canvas.drawText(type[3], width4 - w6, height + w7, paintLowText);
     }
 
 

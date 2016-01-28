@@ -14,7 +14,7 @@ public class PhotoActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.photo_activity);
+        setContentView(R.layout.activity_photo);
         imageView=(PhotoView)findViewById(R.id.image);
         imageView.enable();
         Intent intent=getIntent();

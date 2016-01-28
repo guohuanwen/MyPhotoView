@@ -22,7 +22,8 @@ public class JokeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.joke_activity);
+        setContentView(R.layout.activity_joke);
+        Log.i(TAG, "onCreate ");
         textView = (TextView) findViewById(R.id.joke_activity_text);
         Intent intent = getIntent();
         String text = intent.getStringExtra("text");

@@ -17,7 +17,7 @@ public class WebActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.web_activity);
+        setContentView(R.layout.activity_web);
         Intent intent = getIntent();
         String url = intent.getStringExtra("URL");
         Uri uri = Uri.parse(url);

@@ -1,6 +1,7 @@
 package module.joke;
 
 import android.content.Context;
+import android.text.Html;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +49,8 @@ public class JokeItem extends LinearLayout implements View.OnClickListener{
     private void changeView(){
         if(state == 0){
             state = 1;
-            textView.setText(joke.getTitle()+"\n\n"+joke.getText());
+            String text = Html.fromHtml(joke.getTitle()+"<p></p><p></p>"+joke.getText()).toString();
+            textView.setText(text);
         }else {
             state =0;
             textView.setText(joke.getTitle());

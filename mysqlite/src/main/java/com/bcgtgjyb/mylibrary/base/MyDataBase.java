@@ -31,18 +31,6 @@ public class MyDataBase {
         this.context = context;
         sqliteBaseHelper = new SqliteBaseHelper(context, DB_NAME, null, DB_VERSION);
         db = sqliteBaseHelper.getWritableDatabase();
-        sqliteBaseHelper.setSqliteUpgrade(new SqliteBaseHelper.SqliteUpgrade() {
-            @Override
-            public void Upgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-                Log.i(TAG, "Upgrade 1");
-
-            }
-
-            @Override
-            public void Create(SQLiteDatabase db) {
-
-            }
-        });
     }
 
     public void saveBean(List<MyModel> myModels) {

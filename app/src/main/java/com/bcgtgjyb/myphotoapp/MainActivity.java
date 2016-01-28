@@ -1,5 +1,6 @@
 package com.bcgtgjyb.myphotoapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -27,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import custom.TabIndicadtor;
+import module.guase.GuaseActivity;
+import tool.Share.Share;
 
 public class MainActivity extends FragmentActivity {
     private String TAG = MainActivity.class.getName();
@@ -40,6 +43,7 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Share.getInstance();
         toolbar = (Toolbar) findViewById(R.id.toorBar);
         mViewPager=(ViewPager)findViewById(R.id.viewpager);
         tabIndicadtor=(TabIndicadtor)findViewById(R.id.tabIndicadtor);
@@ -91,7 +95,7 @@ public class MainActivity extends FragmentActivity {
                 .withHeaderBackground(R.drawable.home)
                 .build();
         //if you want to update the items at a later time it is recommended to keep it in a variable
-        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withName("R.string.drawer_item_home");
+        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withName("猜一猜");
 
         SecondaryDrawerItem item2 = new SecondaryDrawerItem().withName("R.string.drawer_item_settings");
 
@@ -109,18 +113,24 @@ public class MainActivity extends FragmentActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-
+                        Log.i(TAG, "onItemClick "+position);
+                        switch (position){
+                            case 1:
+                                Log.i(TAG, "onItemClick ");
+                                startActivity(new Intent(MainActivity.this,GuaseActivity.class));
+                                break;
+                        }
                         return false;
                     }
                 })
                 .build();
 
         //set the selection to the item with the identifier 1
-        result.setSelection(1);
+
 //set the selection to the item with the identifier 2
-        result.setSelection(item2);
+//        result.setSelection(item2);
 //set the selection and also fire the `onItemClick`-listener
-        result.setSelection(1, true);
+//        result.setSelection(1, true);
 
         new SecondaryDrawerItem().withName("R.string.drawer_item_dialog").withSelectable(false);
 //        //modify an item of the drawer
@@ -194,6 +204,5 @@ public class MainActivity extends FragmentActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Log.i(TAG, "onKeyDown ");
         return super.onKeyDown(keyCode, event);
-
     }
 }

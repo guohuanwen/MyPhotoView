@@ -18,4 +18,6 @@ public class MyURL {
     public static String Weather = "http://apis.baidu.com/apistore/weatherservice/recentweathers?cityid=";
     //笑话 url参数，第n页   http://apis.baidu.com/showapi_open_bus/showapi_joke/joke_text?page=1
     public static String Joke = "http://apis.baidu.com/showapi_open_bus/showapi_joke/joke_text";
+    //猜谜语
+    public static String Guase = "http://apis.baidu.com/myml/c1c/c1c";
 }

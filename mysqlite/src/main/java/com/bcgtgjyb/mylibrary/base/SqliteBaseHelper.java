@@ -15,7 +15,6 @@ import com.bcgtgjyb.mylibrary.base.bean.MeiZi;
  */
 public class SqliteBaseHelper extends SQLiteOpenHelper {
     private String TAG = SqliteBaseHelper.class.getName();
-    private SqliteUpgrade sqliteUpgrade;
 
 
     public SqliteBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -32,11 +31,12 @@ public class SqliteBaseHelper extends SQLiteOpenHelper {
                 new CityWeather.RetDataEntity.ForecastEntity().getCreatTableSql());
 
 
+        //1
         db.execSQL(new AndroidData.ResultsEntity().getCreatTableSql());
         db.execSQL(new MeiZi.ResultsEntity().getCreatTableSql());
         db.execSQL(new CityWeather.RetDataEntity().getCreatTableSql());
         db.execSQL(new CityWeather.RetDataEntity.TodayEntity().getCreatTableSql());
-        
+        //2
         db.execSQL(new CityWeather.RetDataEntity.ForecastEntity().getCreatTableSql());
 
     }
@@ -52,14 +52,4 @@ public class SqliteBaseHelper extends SQLiteOpenHelper {
 //        }
     }
 
-
-    public void setSqliteUpgrade(SqliteUpgrade sqliteUpgrade) {
-        this.sqliteUpgrade = sqliteUpgrade;
-    }
-
-    public interface SqliteUpgrade {
-        void Upgrade(SQLiteDatabase db, int oldVersion, int newVersion);
-
-        void Create(SQLiteDatabase db);
-    }
 }
