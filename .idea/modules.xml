@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/dialoglbrary/dialoglbrary.iml" filepath="$PROJECT_DIR$/dialoglbrary/dialoglbrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/mysqlite/mysqlite.iml" filepath="$PROJECT_DIR$/mysqlite/mysqlite.iml" />
+      <module fileurl="file://$PROJECT_DIR$/thread_pool/thread_pool.iml" filepath="$PROJECT_DIR$/thread_pool/thread_pool.iml" />
     </modules>
   </component>
 </project>

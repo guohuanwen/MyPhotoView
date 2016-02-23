@@ -1,1 +1,1 @@
-include ':app', ':mysqlite', ':dialoglbrary'
+include ':app', ':mysqlite', ':dialoglbrary', ':thread_pool'
