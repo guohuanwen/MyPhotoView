@@ -39,6 +39,8 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         onView(withId(R.id.custom_2)).perform(click());
         onView(withId(R.id.custom_3)).perform(click());
         onView(withId(R.id.viewpager)).perform();
+        onView(withId(R.id.photo_list_item_imageview)).perform(click());
+        onView(withId(R.id.photo_list_item_text1)).perform(click());
 //        onData()
     }
 

@@ -1,5 +1,7 @@
 package net;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import com.bcgtgjyb.mylibrary.base.bean.AndroidData;
@@ -12,6 +14,7 @@ public class DataToBean {
 
     public MeiZi MeiZiJsonToBean(String returnString){
         Gson gson=new Gson();
+        Log.i("DataBean", "MeiZiJsonToBean: "+returnString);
         MeiZi resultsEntity=gson.fromJson(returnString,MeiZi.class);
         return resultsEntity;
     }

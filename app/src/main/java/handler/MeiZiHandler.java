@@ -2,6 +2,7 @@ package handler;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import com.bcgtgjyb.mylibrary.base.MyDataBase;
 import com.bcgtgjyb.mylibrary.base.bean.MeiZi;
@@ -23,6 +24,7 @@ public class MeiZiHandler {
     private DataToBean dataToBean = new DataToBean();
     private Handler handler=new Handler(Looper.getMainLooper());
     private MyDataBase myDataBase;
+    private String TAG = MeiZiHandler.class.getSimpleName();
     /**
      * 发出请求并保存数据库
      *
@@ -30,6 +32,7 @@ public class MeiZiHandler {
      */
     public void requestUrl(final int d,final UpdateUI updateUI ) {
         //新建线程，发出请求
+        Log.i(TAG, "requestUrl: ");
         new Thread(new Runnable() {
             @Override
             public void run() {
